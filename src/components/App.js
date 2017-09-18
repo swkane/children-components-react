@@ -1,18 +1,14 @@
 import React, { Component } from 'react';
 import '../styles/App.css';
-import {Navbar, Nav, NavbarBrand} from 'reactstrap';
+import {Navbar, Nav, NavbarBrand, NavItem, Button, Input} from 'reactstrap';
 
 
 class Header extends Component {
   render() {
     return (
-      <div>
         <Navbar color='faded' light toggleable>
-        <NavbarBrand>NavBar</NavbarBrand>
-          <Nav className='ml-auto' navbar>
-          </Nav>
+          <NavbarBrand>NavBar</NavbarBrand>
         </Navbar>
-      </div>
     );
   }
 }
@@ -20,7 +16,11 @@ class Header extends Component {
 class Footer extends Component {
   render() {
     return (
-      <footer>I am the Footer</footer>
+      <Navbar color='faded' light toggleable>
+        <Nav className='ml-auto' navbar>
+          <NavItem>I am a footer</NavItem>
+        </Nav>
+      </Navbar>
     );
   }
 }
@@ -40,10 +40,6 @@ class BaseLayout extends Component {
 class ParentComponent extends Component {
   constructor(props){
     super(props);
-
-    //we are really in a *bind* here.... :)
-    //fix it...
-
     //state lives here
     this.state = {
       whatToSay: "",
@@ -65,15 +61,16 @@ class ParentComponent extends Component {
     this.setState({whatToSay: ""});
 
   }
+  //Smart Component: I have a function, but something isn't working? I also need to pass that function to the ChildComponent.
   render() {
     return (
-      <div>Smart Component: I have a function, but something isn't working? I also need to pass that function to the ChildComponent.
+      <div>
         <div>
-          <input onChange={this.handleInput} type="text" placeholder="Say It, Don't Spray It!" />
+          <Input onChange={this.handleInput} type="text" placeholder="Say It, Don't Spray It!" />
         </div>
         <div>
           <ChildComponent onClick={this.handleSubmit}/>
-          <DisplayComponent sayWhat={this.handleInput} />
+          <DisplayComponent sayWhat={this.state.whatToSay} />
         </div>
       </div>
     );
@@ -83,11 +80,9 @@ class ParentComponent extends Component {
 class ChildComponent extends Component {
   render() {
     return (
-      <div>Dumb Component receiving Props
         <div>
-          <input type="submit" onClick={this.props.onClick}/>
+          <Button color="primary" onClick={this.props.onClick}>Submit</Button>
         </div>
-      </div>
     );
   }
 }
@@ -104,7 +99,7 @@ class DisplayComponent extends Component {
 class App extends Component {
   render() {
     return (
-      <div className="App">
+      <div className="App container">
         <BaseLayout>
           <ParentComponent />
         </BaseLayout>
